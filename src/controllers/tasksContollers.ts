@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
 import * as taskService from '../services/task.service';
-import * as pointService from '../services/point.service';
 import { checkBody, createError } from '../services/error.service';
 
 

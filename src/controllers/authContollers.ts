@@ -21,7 +21,7 @@ export const signIn = async (req: Request, res: Response) => {
     }
   }
 
-  return res.status(401).send(createError(401, '${user.common.errors.authError}'));
+  return res.status(401).send(createError(401, 'Authorization error'));
 
 };
 
@@ -36,7 +36,7 @@ export const signUp = async (req: Request, res: Response) => {
 
   const foundedUser = await userService.findOneUser({ login });
   if (foundedUser) {
-    return res.status(409).send(createError(409, '${user.common.errors.loginExistError}'));
+    return res.status(409).send(createError(409, 'Login already exist'));
   }
   const hashedPassword = await hashPassword(password);
 
