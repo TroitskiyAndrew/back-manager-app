@@ -7,9 +7,9 @@ import * as boardService from '../services/board.service';
 
 
 export const getPoints = async (req: Request, res: Response) => {
-  const boardId = req.params['boardId'];
+  const taskId = req.params['taskId'];
   try {
-    const foundedPoints = await pointService.findPoints({ boardId });
+    const foundedPoints = await pointService.findPoints({ taskId });
     res.json(foundedPoints);
   } catch (err) {
     console.log(err);
@@ -51,7 +51,7 @@ export const createPoint = async (req: Request, res: Response) => {
 export const updatePoint = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['title', 'taskId', 'boardId', 'done']);
+  const bodyError = checkBody(req.body, ['title', 'done']);
   if (bodyError) {
     return res.status(400).send(createError(400, "bad request: " + bodyError));
   }
@@ -67,11 +67,7 @@ export const updatePoint = async (req: Request, res: Response) => {
 export const updateSetOfPoints = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['points']);
-  if (bodyError) {
-    return res.status(400).send(createError(400, "bad request: " + bodyError));
-  }
-  const { points } = req.body;
+  const points = req.body;
 
   if (points.length == 0) {
     return res.status(400).send(createError(400, 'You need at least 1 point'));
@@ -79,14 +75,15 @@ export const updateSetOfPoints = async (req: Request, res: Response) => {
 
   const updatedPoints = [];
   for (const onePoint of points) {
-    const pointError = checkBody(onePoint, ['_id', 'title', 'taskId', 'boardId', 'done'])
+    const pointError = checkBody(onePoint, ['_id', 'done'])
     if (pointError) {
       return res.status(400).send(createError(400, pointError));
     }
     const { _id, done } = onePoint;
 
-    const foundedColumns = await pointService.findPointById(_id);
-    if (!foundedColumns) {
+    const foundedPoints = await pointService.findPointById(_id);
+
+    if (!foundedPoints) {
       return res.status(404).send(createError(404, 'Point was not founded!'));
     }
     try {
@@ -103,6 +100,7 @@ export const updateSetOfPoints = async (req: Request, res: Response) => {
     notify: false,
     initUser,
   });
+  return res.json(updatedPoints);
 };
 
 export const deletePoint = async (req: Request, res: Response) => {

@@ -30,11 +30,13 @@ export const getFilesByBoard = async (req: Request, res: Response) => {
 export const findFiles = async (req: Request, res: Response) => {
   const boards = await boardService.getBordsIdsByUserId(req.query.userId as string);
   const ids = req.query.ids as string[];
+  const taskId = req.query.taskId as string;
+  const allFiles = await fileService.findFiles({});
   if (ids) {
-    const allFiles = await fileService.findFiles({});
     return res.json(allFiles.filter(item => ids.includes(item._id)));
+  } else if (taskId) {
+    return res.json(allFiles.filter(oneFile => oneFile.taskId == taskId));
   } else if (boards) {
-    const allFiles = await fileService.findFiles({});
     return res.json(allFiles.filter(oneFile => boards.includes(oneFile.boardId)));
   } else {
     return res.status(400).send(createError(400, 'Bad request'));

@@ -13,6 +13,8 @@ import usersRouter from '../routes/usersRouter';
 import boardsSetRouter from '../routes/boardsSetRouter';
 import columnsSetRouter from '../routes/columnsSetRouter';
 import pointsRouter from '../routes/pointsRouter';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../../swagger.json';
 
 
 export const app = express();
@@ -22,6 +24,11 @@ export const socket = new Server(server, {
     origin: '*'
   }
 });
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
 app.use(cors({ origin: '*' }));
 app.use(mung);
 app.use(isAuth);

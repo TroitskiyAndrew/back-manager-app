@@ -11,6 +11,6 @@ columnsSetRouter.get('/', columnsSetContollers.findColumns);
 
 columnsSetRouter.patch('/', jsonParser, columnsSetContollers.updateSetOfColumns);
 
-columnsSetRouter.post('/create', jsonParser, columnsSetContollers.createSetOfColumns);
+columnsSetRouter.post('/', jsonParser, columnsSetContollers.createSetOfColumns);
 
 export default columnsSetRouter;
