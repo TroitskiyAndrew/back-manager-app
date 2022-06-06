@@ -20,14 +20,10 @@ export const getUsers = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
   try {
     const foundedUser = await userService.findUserById(req.params['id']);
-    if (foundedUser) {
-      res.json(foundedUser);
-    } else {
-      return res.status(404).send(createError(404, 'User was not founded!'));
-    }
+    res.json(foundedUser);
   }
   catch (err) {
-    return console.log(err);
+    return res.status(404).send(createError(404, 'User was not founded!'));
   }
 
 };

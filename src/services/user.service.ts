@@ -10,7 +10,7 @@ export const createUser = async (params: any, emit = true) => {
   if (emit) {
     socket.emit('users', {
       action: 'add',
-      users: [newUser._id]
+      ids: [newUser._id]
     });
   }
   return newUser;
@@ -34,7 +34,7 @@ export const updateUser = async (id: string, params: any, emit = true) => {
   if (emit) {
     socket.emit('users', {
       action: 'update',
-      users: [updatedUser._id]
+      ids: [updatedUser._id]
     });
   }
   return updatedUser;
@@ -49,7 +49,7 @@ export const deleteUserById = async (userId: string, guid: string, initUser: str
   if (emit) {
     socket.emit('users', {
       action: 'delete',
-      users: [deletedUser._id]
+      ids: [deletedUser._id]
     });
   }
   return deletedUser;

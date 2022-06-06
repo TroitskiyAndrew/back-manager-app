@@ -10,17 +10,13 @@ import { socket } from '../services/server.service';
 export const updateSetOfTask = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['tasks'])
-  if (bodyError) {
-    return res.status(400).send(createError(400, "bad request: " + bodyError));
-  }
-  const { tasks } = req.body;
+  const tasks = req.body;
   if (tasks.length == 0) {
     return res.status(400).send(createError(400, 'You need at least 1 task'));
   }
   const updatedTasks = [];
   for (const oneTask of tasks) {
-    const taskError = checkBody(oneTask, ['_id', 'title', 'order', 'description', 'userId', 'boardId', 'columnId', 'users'])
+    const taskError = checkBody(oneTask, ['_id', 'order', 'columnId'])
     if (taskError) {
       return res.status(400).send(createError(400, "bad request: " + taskError));
     }

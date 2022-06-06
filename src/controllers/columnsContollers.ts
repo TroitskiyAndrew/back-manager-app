@@ -16,14 +16,10 @@ export const getColumns = async (req: Request, res: Response) => {
 export const getColumnById = async (req: Request, res: Response) => {
   try {
     const foundedColumn = await columnService.findColumnById(req.params['columnId']);
-    if (foundedColumn) {
-      res.json(foundedColumn);
-    } else {
-      return res.status(404).send(createError(404, 'Column was not founded!'));
-    }
+    res.json(foundedColumn);
   }
   catch (err) {
-    return console.log(err);
+    return res.status(404).send(createError(404, 'Column was not founded!'));
   }
 
 };
@@ -32,7 +28,7 @@ export const createColumn = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
   const boardId = req.baseUrl.split('/')[2];
-  const bodyError = checkBody(req.body, ['title', 'order', 'boardId'])
+  const bodyError = checkBody(req.body, ['title', 'order'])
   if (bodyError) {
     return res.status(400).send(createError(400, "bad request: " + bodyError));
   }
@@ -50,7 +46,7 @@ export const createColumn = async (req: Request, res: Response) => {
 export const updateColumn = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['title', 'order', 'boardId'])
+  const bodyError = checkBody(req.body, ['title', 'order'])
   if (bodyError) {
     return res.status(400).send(createError(400, "bad request: " + bodyError));
   }

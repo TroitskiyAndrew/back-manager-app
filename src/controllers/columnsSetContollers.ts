@@ -7,17 +7,13 @@ import * as boardService from '../services/board.service';
 export const updateSetOfColumns = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['columns'])
-  if (bodyError) {
-    return res.status(400).send(createError(400, "bad request: " + bodyError));
-  }
-  const { columns } = req.body;
+  const columns = req.body;
   if (columns.length == 0) {
     return res.status(400).send(createError(400, 'You need at least 1 column'));
   }
   const updatedColumns = [];
   for (const oneColumn of columns) {
-    const columnError = checkBody(oneColumn, ['_id', 'title', 'order', 'boardId'])
+    const columnError = checkBody(oneColumn, ['_id', 'order'])
     if (columnError) {
       return res.status(400).send(createError(400, columnError));
     }
@@ -61,11 +57,7 @@ export const findColumns = async (req: Request, res: Response) => {
 export const createSetOfColumns = async (req: Request, res: Response) => {
   const guid = req.header('Guid') || 'undefined';
   const initUser = req.header('initUser') || 'undefined';
-  const bodyError = checkBody(req.body, ['columns'])
-  if (bodyError) {
-    return res.status(400).send(createError(400, "bad request: " + bodyError));
-  }
-  const { columns } = req.body;
+  const columns = req.body;
   if (columns.length == 0) {
     return res.status(400).send(createError(400, 'You need at least 1 column'));
   }

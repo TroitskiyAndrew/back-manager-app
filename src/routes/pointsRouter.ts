@@ -9,13 +9,13 @@ const pointsRouter = express.Router();
 
 pointsRouter.get('/', pointsContollers.findPoints);
 
-pointsRouter.get('/:boardId', pointsContollers.getPoints);
+pointsRouter.get('/:taskId', pointsContollers.getPoints);
 
 pointsRouter.post('/', jsonParser, pointsContollers.createPoint);
 
 pointsRouter.patch('/', jsonParser, pointsContollers.updateSetOfPoints);
 
-pointsRouter.put('/:pointId', jsonParser, pointsContollers.updatePoint);
+pointsRouter.patch('/:pointId', jsonParser, pointsContollers.updatePoint);
 
 pointsRouter.delete('/:pointId', pointsContollers.deletePoint);
 
