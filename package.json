@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn src/index.ts",
-    "build": "tsc",
+    "build": "tsc --output public",
     "test": "test"
   },
   "author": "Andrew Troitskiy",
